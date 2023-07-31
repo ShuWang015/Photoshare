@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{album_name}} | Photoshare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Photoshare</h1>
+        <p>Share your life!</p>
+        <hr>
+    </header>
+
+
+    <div id="container">
+        <nav>
+            {% if name %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href='/profile'>profile</a> </li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/logout'>Logout</a></li>
+            </ul>
+
+            {% else %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/login'>Login</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+
+        {% if name %}
+        <h1>{{name}}</h1>
+        {% endif %}
+
+        {% if album_name %}
+        <h2>{{album_name}}</h2>
+        {% endif %}
+
+        {% if deletable %}
+        <form action='album_delete' method='POST'>
+            <input type="hidden" name="album_id" value={{album_id}}>
+            <input type="hidden" name="album_name" value={{album_name}}>
+            <input type="hidden" name="owner_id" value={{name}}>
+            <input type='submit' name='submit' value="Delete album">
+        </form>
+        {% endif %}
+
+        {% if photos %}
+        <div id="photos">
+            <ul>
+                {% for photo in photos %}
+                <li class="photos">{{photo[1]}}<br>
+                    <img src='data:image/jpg;base64, {{ photo[2] }}' />
+                    <br>
+                    <form action='photo' method='POST'>
+                        <input type="hidden" name="photo_id" value={{photo[0]}}>
+                        <input type='submit' name='submit' value="View photo">
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <footer>
+        <hr>
+        
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+
+<html>
+
+<head>
+    {% if photos %}
+    <title>{{photos[1]}} | Photoshare</title>
+    {% else %}
+    <title>Photoshare</title>
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Photoshare</h1>
+        <p>Share your life!</p>
+        <hr>
+    </header>
+
+
+    <div id="container">
+
+        <nav>
+            {% if loggedin %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href='/profile'>profile</a> </li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/logout'>Logout</a></li>
+            </ul>
+
+            {% else %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/login'>Login</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+
+        {% if deletable %}
+        <form action='photo_delete' method='POST'>
+            <input type="hidden" name="photo_id" value={{photo[0]}}>
+            <input type="hidden" name="owner_id" value={{name}}>
+            <input type='submit' name='submit' value="Delete photo">
+        </form>
+        {% endif %}
+
+        {% if photo %}
+        <div id="photos" class="single">
+            <ul>
+                <li><img src='data:image/jpg;base64, {{ photo[2] }}' /> </li>
+
+            </ul>
+
+        </div>
+
+        <div id="like">
+            {% if name %}
+            <h1>User: {{name}}</h1>
+            {% endif %}
+            <h2>Title: {{photo[1]}}</h2>
+            <h3>From album: {{album}}</h3>
+            {% if likes %}
+            <h3>Likes: {{likes}}</h3>
+            {% else %}
+            <h3>Likes: {{likes}}</h3>
+            {% endif %}
+            <form action='/like' method='POST'>
+                <input type="hidden" name="photo_id" id="photo_id" value={{photo[0]}}>
+                <input type="hidden" name="user_id" id="user_id" value={{loggedin}}>
+                <input type="hidden" name="owner_id" id="owner_id" value={{name}}>
+                <input type='submit' name='submit' value="like">
+            </form>
+            <form action='profile' method='POST'>
+                <input type="hidden" name="user_id" value={{name}}>
+                <input type='submit' name='submit' value="View profile">
+            </form>
+        </div>
+
+        {% if comments %}
+        <div id="comments">
+            <h2>Comments ({{num}}):</h2>
+            <div id="comment">
+                <form action='/comment' method='POST'>
+                    <input type='text' name='comment' id='comment' placeholder='Share your thoughts here'>
+                    <input type="hidden" name="photo_id" id="photo_id" value={{photo[0]}}>
+                    {%if loggedin %}
+                    <input type="hidden" name="user_id" id="user_id" value={{loggedin}}>
+                    {% else %}
+                    <input type="hidden" name="user_id" id="user_id" value="guest">
+                    {% endif %}
+                    <input type='submit' name='submit' value="comment">
+                </form>
+            </div>
+            <ul id="commentSection">
+                {% for comment in comments %}
+                <li class="comment"><p class="commentInfo">{{comment[0]}} at {{comment[2]}}</p>
+                    <!--Username-->             <!--Date-->
+                    <p class="commentText">{{comment[1]}}</p>
+                    
+                    <!--Comment-->
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% else %}
+        <div id="comments">
+            <h2>Comments (0):</h2>
+            <div id="comment">
+                <form action='/comment' method='POST'>
+                    <input type='text' name='comment' id='comment' placeholder='Share your thoughts here'>
+                    <input type="hidden" name="photo_id" id="photo_id" value={{photo[0]}}>
+                    {%if loggedin %}
+                    <input type="hidden" name="user_id" id="user_id" value={{loggedin}}>
+                    {% else %}
+                    <input type="hidden" name="user_id" id="user_id" value="guest">
+                    {% endif %}
+                    <input type='submit' name='submit' value="comment">
+                </form>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+    </div>
+
+
+    <footer>
+        <hr>
+        
+    </footer>
+</body>

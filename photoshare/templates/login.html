@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Photoshare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <h1>Photoshare</h1>
+        <p>Share your life!</p>
+        <hr>
+    </header>
+
+
+    <div id="container">
+        <nav>
+            {% if name %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href='/profile'>profile</a> </li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/logout'>Logout</a></li>
+            </ul>
+
+            {% else %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/login'>Login</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+
+        <div id="login_form">
+            <h1>Photoshare</h1>
+            <h2>Login</h2>
+            <form action='login' method='POST'>
+                <input type='text' name='email' id='email' placeholder='email'></input>
+                <input type='password' name='password' id='password' placeholder='password'></input>
+                <input type='submit' name='submit' value="login"></input>
+            </form>
+            <a href="/register">Create a new account</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <hr>
+        
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!-- author ben lawson (balawson@bu.edu) -->
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Upload a photo!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <h1>Photoshare</h1>
+        <p>Share your life!</p>
+        <hr>
+    </header>
+
+    <div id="container">
+        <nav>
+            {% if name %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href='/profile'>profile</a> </li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/logout'>Logout</a></li>
+            </ul>
+
+            {% else %}
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href="/search">Search for a photo</a></li>
+                <li><a href='/upload'>Upload a photo</a> </li>
+                <li><a href='/login'>Login</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+
+        {% if albums %}
+        <div class="title">
+            <h1>Upload a photo to Photoshare</h1>
+        </div>
+        <form method="post" enctype="multipart/form-data" action="/upload">
+            <label for="photo">Select photo:</label>
+            <input type="file" name="photo" required='true' /><br />
+            <label for="caption">Caption:</label>
+            <input type="text" name="caption" required='true' /><br />
+            <label for="tags">Tags (seperate by space):</label>
+            <input type="text" name="tags" required='false' /><br />
+
+            
+            <label for="album">Album:</label>
+            <select name="album" id="album">
+                {% for album in albums %}
+                <option value={{album[0]}}>{{album[1]}}</option>
+                {% endfor %}
+            </select>
+
+            
+
+            <input type="submit" value="Upload" />
+        </form>
+        <a href="/album"> create an album</a>
+
+        {% else %}
+        <p>Please <a href="/album"> create an album</a> first.</p>
+        {% endif %}
+
+    </div>
+
+    <footer>
+        <hr>
+        
+    </footer>
+</body>
+
+</html>
